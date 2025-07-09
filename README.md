@@ -1,4 +1,4 @@
-# Crypto Tracker \u2014 Next.js × Bun
+# Crypto Tracker \14 Next.js × Bun
 
 Real‑time cryptocurrency price dashboard written with **Next.js 14 (App Router)**, **Bun** as the package manager/runtime, **Tailwind CSS**, **TanStack Query v5** for data‑fetching & caching, and **Recharts** for spark‑line charts.
 
