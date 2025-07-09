@@ -77,37 +77,44 @@ export default function CryptoDashboard() {
   const hasHistoryError = historyData?.error
 
 
-  // Format chart data
   const chartData =
     historyData?.series?.map((point: any) => ({
       time: formatTimeForChart(point.t, days),
       date: new Date(point.t).toLocaleString(),
       price: point.close,
-    })) || []
+    })) || [];
 
-  const currentPrice = spotData?.current_price || 0
-  const priceChange = spotData?.price_change_percentage_24h || 0
+  const currentPrice = spotData?.current_price || 0;
+  const priceChange = spotData?.price_change_percentage_24h || 0;
 
   return (
     <div className="min-h-screen bg-background p-4">
       <div className="max-w-6xl mx-auto space-y-6">
-        {/* Header */}
         <div className="text-center space-y-2">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             Crypto Price Dashboard
           </h1>
-          <p className="text-muted-foreground">Real-time cryptocurrency prices with TanStack Query</p>
+          <p className="text-muted-foreground">
+            Real-time cryptocurrency prices with TanStack Query
+          </p>
         </div>
 
         {/* Controls */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium">Cryptocurrency:</span>
-            <CryptoSelector value={selectedCrypto} onValueChange={setSelectedCrypto} options={cryptoOptions} />
+            <CryptoSelector
+              value={selectedCrypto}
+              onValueChange={setSelectedCrypto}
+              options={cryptoOptions}
+            />
           </div>
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium">Time Period:</span>
-            <TimePeriodSelector value={selectedPeriod} onValueChange={setSelectedPeriod} />
+            <TimePeriodSelector
+              value={selectedPeriod}
+              onValueChange={setSelectedPeriod}
+            />
           </div>
           <Button
             variant="outline"
@@ -116,7 +123,9 @@ export default function CryptoDashboard() {
             disabled={isLoading || isRefetching}
             className="flex items-center gap-2"
           >
-            <RefreshCw className={`h-4 w-4 ${isRefetching ? "animate-spin" : ""}`} />
+            <RefreshCw
+              className={`h-4 w-4 ${isRefetching ? "animate-spin" : ""}`}
+            />
             Refresh
           </Button>
         </div>
@@ -129,14 +138,27 @@ export default function CryptoDashboard() {
                   {selectedCryptoData?.icon}
                 </div>
                 <div>
-                  <h2 className="text-2xl font-bold">{selectedCryptoData?.label}</h2>
-                  <p className="text-muted-foreground">{selectedCryptoData?.symbol}</p>
+                  <h2 className="text-2xl font-bold">
+                    {selectedCryptoData?.label}
+                  </h2>
+                  <p className="text-muted-foreground">
+                    {selectedCryptoData?.symbol}
+                  </p>
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-3xl font-bold">${currentPrice.toLocaleString()}</div>
-                <Badge variant={priceChange >= 0 ? "default" : "destructive"} className="flex items-center gap-1 mt-2">
-                  {priceChange >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
+                <div className="text-3xl font-bold">
+                  ${currentPrice.toLocaleString()}
+                </div>
+                <Badge
+                  variant={priceChange >= 0 ? "default" : "destructive"}
+                  className="flex items-center gap-1 mt-2"
+                >
+                  {priceChange >= 0 ? (
+                    <TrendingUp className="w-4 h-4" />
+                  ) : (
+                    <TrendingDown className="w-4 h-4" />
+                  )}
                   {priceChange >= 0 ? "+" : ""}
                   {priceChange.toFixed(2)}%
                 </Badge>
@@ -147,28 +169,37 @@ export default function CryptoDashboard() {
               <div>
                 <p className="text-sm text-muted-foreground">Market Cap</p>
                 <p className="text-lg font-semibold">
-                  ${spotData.market_cap ? (spotData.market_cap / 1e9).toFixed(2) + "B" : "N/A"}
+                  $
+                  {spotData.market_cap
+                    ? (spotData.market_cap / 1e9).toFixed(2) + "B"
+                    : "N/A"}
                 </p>
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">24h Volume</p>
                 <p className="text-lg font-semibold">
-                  ${spotData.total_volume ? (spotData.total_volume / 1e9).toFixed(2) + "B" : "N/A"}
+                  $
+                  {spotData.total_volume
+                    ? (spotData.total_volume / 1e9).toFixed(2) + "B"
+                    : "N/A"}
                 </p>
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">24h High</p>
-                <p className="text-lg font-semibold">${spotData.high_24h?.toLocaleString() || "N/A"}</p>
+                <p className="text-lg font-semibold">
+                  ${spotData.high_24h?.toLocaleString() || "N/A"}
+                </p>
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">24h Low</p>
-                <p className="text-lg font-semibold">${spotData.low_24h?.toLocaleString() || "N/A"}</p>
+                <p className="text-lg font-semibold">
+                  ${spotData.low_24h?.toLocaleString() || "N/A"}
+                </p>
               </div>
             </div>
           </div>
         )}
 
-        {/* Loading State */}
         {isLoading && (
           <div className="flex items-center justify-center py-8">
             <div className="flex items-center gap-2">
@@ -178,12 +209,12 @@ export default function CryptoDashboard() {
           </div>
         )}
 
-        {/* Error State */}
         {error && (
           <Alert variant="destructive">
             <AlertCircle className="h-4 w-4" />
             <AlertDescription>
-              Failed to fetch data: {error instanceof Error ? error.message : "Unknown error"}
+              Failed to fetch data:{" "}
+              {error instanceof Error ? error.message : "Unknown error"}
             </AlertDescription>
           </Alert>
         )}
@@ -192,12 +223,12 @@ export default function CryptoDashboard() {
           <Alert>
             <AlertTriangle className="h-4 w-4" />
             <AlertDescription>
-              Chart data unavailable: {historyData.error}. Showing current price only.
+              Chart data unavailable: {historyData.error}. Showing current price
+              only.
             </AlertDescription>
           </Alert>
         )}
 
-        {/* Price Chart */}
         {chartData.length > 0 && (
           <PriceChart
             data={chartData}
@@ -209,14 +240,17 @@ export default function CryptoDashboard() {
           />
         )}
 
-        {/* Raw Data Display (for debugging) */}
         {data && (
           <details className="bg-muted p-4 rounded-lg">
-            <summary className="cursor-pointer font-medium mb-2">Raw API Data (Debug)</summary>
-            <pre className="text-xs overflow-auto max-h-96">{JSON.stringify(data, null, 2)}</pre>
+            <summary className="cursor-pointer font-medium mb-2">
+              Raw API Data
+            </summary>
+            <pre className="text-xs overflow-auto max-h-96">
+              {JSON.stringify(data, null, 2)}
+            </pre>
           </details>
         )}
       </div>
     </div>
-  )
+  );
 }

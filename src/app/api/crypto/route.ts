@@ -25,33 +25,40 @@ export async function GET(req: NextRequest) {
     const history = await Promise.all(
       ids.map(async (id) => {
         try {
-          const historyResponse = await fetch(`${CG}/coins/${id}/market_chart?vs_currency=${vs}&days=${days}`)
+          const historyResponse = await fetch(
+            `${CG}/coins/${id}/market_chart?vs_currency=${vs}&days=${days}`
+          );
 
           if (!historyResponse.ok) {
-            console.error(`CoinGecko history API error for ${id}: ${historyResponse.status}`)
+            console.error(
+              `CoinGecko history API error for ${id}: ${historyResponse.status}`
+            );
             return {
               id,
-              series: [], 
+              series: [],
               error: `API error: ${historyResponse.status}`,
-            }
+            };
           }
 
-          const data = await historyResponse.json()
+          const data = await historyResponse.json();
 
-          // Check if prices data exists and is an array
+          // Check if prices data exist
           if (!data || !Array.isArray(data.prices)) {
-            console.error(`Invalid price data for ${id}:`, data)
+            console.error(`Invalid price data for ${id}:`, data);
             return {
               id,
-              series: [], 
+              series: [],
               error: "Invalid price data format",
-            }
+            };
           }
 
           return {
             id,
-            series: data.prices.map(([t, p]: [number, number]) => ({ t, close: p })),
-          }
+            series: data.prices.map(([t, p]: [number, number]) => ({
+              t,
+              close: p,
+            })),
+          };
         } catch (error) {
           console.error(`Error fetching history for ${id}:`, error)
           return {
