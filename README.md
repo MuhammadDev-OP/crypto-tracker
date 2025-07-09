@@ -1,36 +1,122 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Crypto Tracker \u2014 Next.js × Bun
 
-## Getting Started
+Real‑time cryptocurrency price dashboard written with **Next.js 14 (App Router)**, **Bun** as the package manager/runtime, **Tailwind CSS**, **TanStack Query v5** for data‑fetching & caching, and **Recharts** for spark‑line charts.
 
-First, run the development server:
+> **Live demo:** add the project to Vercel and you will instantly get preview & production URLs for every branch.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## ✨ Features
+
+|             |  Details                                                                                  |
+| ----------- | ----------------------------------------------------------------------------------------- |
+| Data source | [CoinGecko v3 REST API](https://www.coingecko.com/en/api/documentation) (no key required) |
+| Runtime     | [Bun >= 1.0](https://bun.sh) + ES2022 modules                                             |
+| Framework   | Next.js 14 (React 18, App Router, server actions)                                         |
+| State/Data  | TanStack React Query v5 (+ DevTools)                                                      |
+| Styling     | Tailwind CSS 3 + Radix UI primitives + lucide‑react icons                                 |
+| Charts      | Recharts 2 (responsive LineChart)                                                         |
+| CI / CD     | GitHub Actions ➜ Vercel automatic deployments                                             |
+
+---
+
+## 🖇️ Repository
+
+```
+https://github.com/MuhammadDev-OP/crypto-tracker.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🚀 Quick start
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### 1 · Clone and install
 
-## Learn More
+```bash
+git clone https://github.com/MuhammadDev-OP/crypto-tracker.git
+cd crypto-tracker
 
-To learn more about Next.js, take a look at the following resources:
+# install with Bun (fast)
+bun install
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 2 · Run the development server
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```bash
+# any of the following is fine
+a. bun run dev          # uses the npm script in package.json
+b. bunx next dev        # equivalent manual call
 
-## Deploy on Vercel
+# open http://localhost:3000
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 3 · Build & preview production locally
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```bash
+# build the optimized production bundle
+bun run build
+
+# start production server on :3000
+bun run start
+```
+
+> **Note:** `bun run <script>` will execute any script from **package.json** using Bun's ultra‑fast runtime.
+
+---
+
+## ⚙️ Configuration
+
+| File                                        | Purpose                                                                                                  |
+| ------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `src/components/pages/crypto-dashboard.tsx` | Main UI with selectors, TanStack Query hook and Recharts chart.                                          |
+| `app/api/crypto/route.ts`                   | **Route Handler** that proxies CoinGecko (current spot + historical series) and applies 60 s edge cache. |
+| `tailwind.config.ts`                        | Tailwind design tokens; extend colours or fonts here.                                                    |
+| `.github/workflows/vercel-deploy.yml`       | (Optional) Workflow for CLI‑based Vercel deploys if you don't use the native Git integration.            |
+
+### Environment variables
+
+The public CoinGecko endpoints used here **do not require a token**; simply respect the 30 req / min free limit.
+
+If you upgrade to the Pro tier or want to access private endpoints, create a `.env.local`:
+
+```env
+# example only – replace with your token\ nCOINGECKO_API_KEY=xxxxxxxxxxxxxxxx
+```
+
+and pass it in `fetch` headers inside `app/api/crypto/route.ts`.
+
+---
+
+## 📂 Script cheatsheet
+
+| Script          | What it does                     |
+| --------------- | -------------------------------- |
+| `bun run dev`   | Start Dev server (`next dev`)    |
+| `bun run lint`  | ESLint check (Next.js rules)     |
+| `bun run build` | Production build (`next build`)  |
+| `bun run start` | Start prod server (`next start`) |
+
+---
+
+## 🛠 Tooling versions
+
+| Package                 | Version (2025‑06) |
+| ----------------------- | ----------------- |
+| `bun`                   |  1.x              |
+| `next`                  |  14.2.3           |
+| `react` / `react-dom`   |  18.x             |
+| `@tanstack/react-query` |  5.82.0           |
+| `recharts`              |  2.15.x           |
+| `tailwindcss`           |  3.4.x            |
+
+See [`package.json`](./package.json) for the full list.
+
+---
+---
+
+## 🚚 Deployment on Vercel
+
+
+MIT © 2025 Muhammad B.
+
+> Crypto data provided by [https://www.coingecko.com](https://www.coingecko.com). This project is for educational/demo purposes; **not** financial advice.
