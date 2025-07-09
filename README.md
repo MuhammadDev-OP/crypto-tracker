@@ -71,8 +71,6 @@ bun run start
 | `src/components/pages/crypto-dashboard.tsx` | Main UI with selectors, TanStack Query hook and Recharts chart.                                          |
 | `app/api/crypto/route.ts`                   | **Route Handler** that proxies CoinGecko (current spot + historical series) and applies 60 s edge cache. |
 | `tailwind.config.ts`                        | Tailwind design tokens; extend colours or fonts here.                                                    |
-| `.github/workflows/vercel-deploy.yml`       | (Optional) Workflow for CLI‑based Vercel deploys if you don't use the native Git integration.            |
-
 ### Environment variables
 
 The public CoinGecko endpoints used here **do not require a token**; simply respect the 30 req / min free limit.
